@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --bg: #f3f5f8;
+    --grid: rgba(15, 23, 42, 0.05);
+    --chart-grid: #e2e8f0;
+    --chart-text: #64748b;
+  }
+  .dark {
+    color-scheme: dark;
+    --bg: #0b0e13;
+    --grid: rgba(255, 255, 255, 0.035);
+    --chart-grid: #2a303d;
+    --chart-text: #8592a9;
+  }
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    @apply font-sans text-slate-800 dark:text-graphite-100 antialiased;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(1200px 600px at 85% -10%, rgba(249, 115, 22, 0.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 10%, rgba(251, 191, 36, 0.06), transparent 60%),
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: auto, auto, 40px 40px, 40px 40px;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4 { @apply font-display tracking-tight; }
+  :focus-visible { @apply outline-none ring-2 ring-amber-400 ring-offset-2 ring-offset-white dark:ring-offset-graphite-950; }
+  ::selection { background: rgba(251, 146, 60, 0.35); }
+}
+
+@layer components {
+  .glass {
+    @apply rounded-2xl border border-slate-200/80 bg-white/75 shadow-sm backdrop-blur-xl
+           dark:border-white/[0.07] dark:bg-graphite-900/60 dark:shadow-card;
+  }
+  .glass-hover {
+    @apply transition duration-300 hover:-translate-y-0.5 hover:border-amber-400/40 hover:shadow-glow;
+  }
+  .text-gradient {
+    @apply bg-gradient-to-r from-amber-300 via-orange-400 to-orange-600 bg-clip-text text-transparent;
+    background-size: 200% auto;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+           transition duration-200 disabled:cursor-not-allowed disabled:opacity-50 active:scale-[0.98];
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-amber-400 to-orange-600 text-graphite-950 shadow-glow hover:brightness-110;
+  }
+  .btn-ghost {
+    @apply btn border border-slate-300 bg-white/60 text-slate-700 hover:border-amber-400/60 hover:text-orange-600
+           dark:border-white/10 dark:bg-white/[0.03] dark:text-graphite-100 dark:hover:text-amber-300;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-500;
+  }
+  .input {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400
+           transition focus:border-amber-400 focus:outline-none focus:ring-4 focus:ring-amber-400/15
+           dark:border-white/10 dark:bg-graphite-950/60 dark:text-graphite-50 dark:placeholder:text-graphite-500;
+  }
+  .input-error { @apply border-red-500 focus:border-red-500 focus:ring-red-500/15 dark:border-red-500/70; }
+  .label { @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-graphite-400; }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .mono { @apply font-mono tracking-tight; }
+  .muted { @apply text-slate-500 dark:text-graphite-400; }
+  .eyebrow { @apply font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-orange-700 dark:text-amber-400; }
+}
+
+@keyframes skeleton {
+  100% { transform: translateX(100%); }
+}
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar { height: 8px; width: 8px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(133, 146, 169, 0.35); border-radius: 8px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 5rem); }
+}
+
+/* Printing: only the .print-area is shown */
+@media print {
+  @page { margin: 12mm; }
+  html, body { background: #fff !important; color: #000 !important; }
+  body * { visibility: hidden; }
+  .print-area, .print-area * { visibility: visible; }
+  .print-area { position: absolute; inset: 0 auto auto 0; width: 100%; }
+  .no-print { display: none !important; }
+  .print-area .glass { background: #fff !important; border-color: #ccc !important; box-shadow: none !important; backdrop-filter: none !important; }
+}
